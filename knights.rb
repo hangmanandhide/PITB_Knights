@@ -13,7 +13,7 @@ class KnightPathFinder
 
   def initialize(starting_pos = [0,0])
     @root_node = build_move_tree(starting_pos)
-    @considered_positions = starting_pos
+    @considered_positions = [starting_pos]
   end
 
   def build_move_tree(starting_pos)
@@ -35,12 +35,24 @@ class KnightPathFinder
         all_valid_moves << valid_move
       end
     end
-    
+
     all_valid_moves
   end
 
   def new_move_positions(pos)
+    all_valid_moves = valid_moves(pos)
+    potential_new_moves = []
 
+    all_valid_moves.each do |valid_move|
+      if !@considered_positions.include?(valid_move)
+        potential_new_moves << valid_move
+        @considered_positions << valid_move
+      end
+    end
+
+    potential_new_moves
   end
+
+  
 
 end
