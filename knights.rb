@@ -18,12 +18,13 @@ class KnightPathFinder
     @starting_pos = starting_pos
     # @root_node = starting_pos
     @considered_positions = [starting_pos]
+    # debugger
     build_move_tree
   end
 
   def find_path(end_pos)
     end_node = root_node.dfs(end_pos)
-    trace_path_back(end_node)
+    trace_path_back(end_node).map(&:value)
   end
 
   def trace_path_back(end_node)
