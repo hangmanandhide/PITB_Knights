@@ -10,17 +10,31 @@ class KnightPathFinder
     [1, 2],
     [2, 1]
   ].freeze
+  attr_accessor :root_node
 
   def initialize(starting_pos)
     @root_node = starting_pos
     @considered_positions = [starting_pos]
+    build_move_tree
   end
 
   def find_path(end_pos)
-    self.dfs(end_pos)
+    end_node = root_node.dfs(end_pos)
+    trace_path_back(end_node)
   end
 
-  
+  def trace_path_back(end_node)
+    path_of_nodes = []
+    current_node = end_node
+    
+    until current_node.nil?
+      path_of_nodes << current_node.parent
+      current_node = current_node.parent
+    end
+
+    path_of_nodes
+
+  end
 
   def build_move_tree
     self.root_node = PolyTreeNode.new(starting_pos)
