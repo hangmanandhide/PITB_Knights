@@ -1,4 +1,6 @@
 require_relative "polytreenode"
+require "byebug"
+
 class KnightPathFinder
   DELTAS = [
     [2, -1],
@@ -10,10 +12,11 @@ class KnightPathFinder
     [1, 2],
     [2, 1]
   ].freeze
-  attr_accessor :root_node
+  attr_accessor :starting_pos, :root_node
 
   def initialize(starting_pos)
-    @root_node = starting_pos
+    @starting_pos = starting_pos
+    # @root_node = starting_pos
     @considered_positions = [starting_pos]
     build_move_tree
   end
@@ -33,7 +36,6 @@ class KnightPathFinder
     end
 
     path_of_nodes
-
   end
 
   def build_move_tree
@@ -46,7 +48,7 @@ class KnightPathFinder
 
       current_pos = now_serving.value
       new_move_positions(current_pos).each do |next_pos|
-        next_node = PolyTreeNode(next_pos)
+        next_node = PolyTreeNode.new(next_pos)
         now_serving.add_child(next_node)
         node_queue << next_node
       end
@@ -86,4 +88,9 @@ class KnightPathFinder
     potential_new_moves
   end
 
+end
+
+if $PROGRAM_NAME == __FILE__
+  kpf = KnightPathFinder.new([0,0])
+  p kpf.find_path([7,6])
 end
