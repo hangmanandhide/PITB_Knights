@@ -28,7 +28,7 @@ class KnightPathFinder
     current_node = end_node
     
     until current_node.nil?
-      path_of_nodes << current_node.parent
+      path_of_nodes << current_node
       current_node = current_node.parent
     end
 
