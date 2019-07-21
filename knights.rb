@@ -11,13 +11,26 @@ class KnightPathFinder
     [2, 1]
   ].freeze
 
-  def initialize(starting_pos = [0,0])
-    @root_node = build_move_tree(starting_pos)
+  def initialize(starting_pos)
+    @root_node = starting_pos
     @considered_positions = [starting_pos]
   end
 
-  def build_move_tree(starting_pos)
-    PolyTreeNode.new(starting_pos)
+  def build_move_tree
+    self.root_node = PolyTreeNode.new(starting_pos)
+
+    node_queue = [root_node]
+   
+    until node_queue.empty?
+      now_serving = node_queue.shift
+
+      current_pos = now_serving.value
+      new_move_positions(current_pos).each do |next_pos|
+        next_node = PolyTreeNode(next_pos)
+        now_serving.add_child(next_node)
+        node_queue << next_node
+      end
+    end
   end
 
   def valid_moves(pos)
@@ -52,7 +65,5 @@ class KnightPathFinder
 
     potential_new_moves
   end
-
-  
 
 end
